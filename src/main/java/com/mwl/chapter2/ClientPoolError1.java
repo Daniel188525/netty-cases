@@ -7,13 +7,13 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
 
-public class ClientPool {
-
+public class ClientPoolError1 {
     static final String HOST = System.getProperty("host", "127.0.0.1");
-    static final int PORT = Integer.parseInt(System.getProperty("port", "8080"));
+    static final int PORT = Integer.parseInt(System.getProperty("port", "18081"));
 
     public static void main(String[] args) throws Exception {
-        initClientPool(300);
+//        TimeUnit.SECONDS.sleep(30);
+        initClientPool(100);
     }
 
     static void initClientPool(int poolSize) throws Exception {
@@ -30,7 +30,10 @@ public class ClientPool {
                     }
                 });
         for (int i = 0; i < poolSize; i++) {
-            b.connect(HOST, PORT).sync();
+            ChannelFuture f = b.connect(HOST, PORT).sync();
+            f.channel().closeFuture().addListener((r) -> {
+                group.shutdownGracefully();
+            });
         }
     }
 }
