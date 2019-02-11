@@ -11,17 +11,18 @@ import org.junit.Test;
  */
 public class PoolByteBufPerformanceTest {
 
+    private int maxTimes = 100000000;
+
     @Test
     public void unPoolTest() {
         //非内存池模式
         long beginTime = System.currentTimeMillis();
         ByteBuf buf = null;
-        int maxTimes = 10000000;
         for (int i = 0; i < maxTimes; i++) {
             buf = Unpooled.buffer(10 * 1024);
             buf.release();
         }
-        System.out.println("Execute " + maxTimes + " times cost time : "
+        System.out.println("非内存池模式：Execute " + maxTimes + " times cost time : "
                            + (System.currentTimeMillis() - beginTime));
     }
 
@@ -31,12 +32,11 @@ public class PoolByteBufPerformanceTest {
         PooledByteBufAllocator allocator = new PooledByteBufAllocator(false);
         long beginTime = System.currentTimeMillis();
         ByteBuf buf = null;
-        int maxTimes = 10000000;
         for (int i = 0; i < maxTimes; i++) {
             buf = allocator.heapBuffer(10 * 1024);
             buf.release();
         }
-        System.out.println("Execute " + maxTimes + " times cost time : "
+        System.out.println("内存池模式：Execute " + maxTimes + " times cost time : "
                            + (System.currentTimeMillis() - beginTime));
     }
 }

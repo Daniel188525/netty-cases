@@ -11,3 +11,10 @@
 - NioEvenLoop是非守护线程
 - NioEvenLoop运行之后不会主动退出
 - NioEvenLoop只有调用shutdown系列方法才会退出
+
+## 1.3 netty内存泄漏案例
+- 基于内存池请求的ByteBuf
+    - NioEventLoop线程在处理Channel的读操作进行分配，处理完之后需要进行内存释放
+- 基于非内存池请求的ByteBuf：与内存池一样
+- 基于内存池的响应ByteBuf
+- 基于非内存池的响应ByteBuf
