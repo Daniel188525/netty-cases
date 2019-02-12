@@ -17,15 +17,15 @@ public class HttpResponse {
         this.response = response;
     }
 
-    public byte[] body() {
-        return body = response.content() != null?
-                response.content().array() : null;
-    }
-
 //    public byte[] body() {
-//        body = new byte[response.content().readableBytes()];
-//        response.content().getBytes(0, body);
-//        return body;
+//        return body = response.content() != null?
+//                response.content().array() : null;
 //    }
+
+    public byte[] body() {
+        body = new byte[response.content().readableBytes()];
+        response.content().getBytes(0, body);
+        return body;
+    }
 
 }

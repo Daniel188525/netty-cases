@@ -10,14 +10,14 @@ import io.netty.util.concurrent.DefaultPromise;
  * @date 2019-02-11 22:35
  */
 public class HttpClientHandler extends SimpleChannelInboundHandler<FullHttpResponse> {
-    DefaultPromise<HttpResponse> respPromise;
+    DefaultPromise<HttpResponseV2> respPromise;
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpResponse msg) throws Exception {
         if (msg.decoderResult().isFailure()) {
             throw new Exception("Decode HttpResponse error : " + msg.decoderResult().cause());
         }
-        HttpResponse response = new HttpResponse(msg);
+        HttpResponseV2 response = new HttpResponseV2(msg);
         respPromise.setSuccess(response);
     }
 
@@ -28,11 +28,11 @@ public class HttpClientHandler extends SimpleChannelInboundHandler<FullHttpRespo
         ctx.close();
     }
 
-    public DefaultPromise<HttpResponse> getRespPromise() {
+    public DefaultPromise<HttpResponseV2> getRespPromise() {
         return respPromise;
     }
 
-    public void setRespPromise(DefaultPromise<HttpResponse> respPromise) {
+    public void setRespPromise(DefaultPromise<HttpResponseV2> respPromise) {
         this.respPromise = respPromise;
     }
 }

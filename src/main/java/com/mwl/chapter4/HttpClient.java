@@ -49,12 +49,12 @@ public class HttpClient {
         channel = future.channel();
     }
 
-    private HttpResponse blockSend(FullHttpRequest request) throws InterruptedException, ExecutionException {
+    private HttpResponseV2 blockSend(FullHttpRequest request) throws InterruptedException, ExecutionException {
         request.headers().set(HttpHeaderNames.CONTENT_LENGTH, request.content().readableBytes());
-        DefaultPromise<HttpResponse> respPromise = new DefaultPromise<>(channel.eventLoop());
+        DefaultPromise<HttpResponseV2> respPromise = new DefaultPromise<>(channel.eventLoop());
         handler.setRespPromise(respPromise);
         channel.writeAndFlush(request);
-        HttpResponse response = respPromise.get();
+        HttpResponseV2 response = respPromise.get();
         if (response != null) {
             System.out.print("The client received http response, the body is :" + new String(response.body()));
         }
@@ -67,6 +67,6 @@ public class HttpClient {
         ByteBuf body = Unpooled.wrappedBuffer("Http message!".getBytes("UTF-8"));
         DefaultFullHttpRequest request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET,
                                                                     "http://127.0.0.1/user?id=11&addr=ShangHai", body);
-        HttpResponse response = client.blockSend(request);
+        HttpResponseV2 response = client.blockSend(request);
     }
 }
