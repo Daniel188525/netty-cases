@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Sharable
 public class SharableClientHandler extends ChannelInboundHandlerAdapter {
     AtomicInteger counter = new AtomicInteger(0);
+//    Integer counter = 0;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
